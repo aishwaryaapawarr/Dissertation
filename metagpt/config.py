@@ -4,6 +4,8 @@
 Provide configuration, singleton
 """
 import os
+from metagpt.config import CONFIG
+from metagpt.const import WORKSPACE_ROOT
 
 import openai
 import yaml

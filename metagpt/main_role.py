@@ -112,6 +112,7 @@ class Role:
                 i = action("")
             else:
                 i = action
+            print(i)
             i.set_prefix(self._get_prefix(), self.profile)
             self._actions.append(i)
             self._states.append(f"{idx}. {action}")
@@ -152,6 +153,7 @@ class Role:
         prompt = self._get_prefix()
         prompt += STATE_TEMPLATE.format(history=self._rc.history, states="\n".join(self._states),
                                         n_states=len(self._states) - 1)
+        print(prompt)
         next_state = await self._llm.aask(prompt)
         logger.debug(f"{prompt=}")
         if not next_state.isdigit() or int(next_state) not in range(len(self._states)):
@@ -169,7 +171,7 @@ class Role:
         # logger.info(response)
         if isinstance(response, ActionOutput):
             msg = Message(content=response.content, instruct_content=response.instruct_content,
-                        role=self.profile, cause_by=type(self._rc.todo))
+                          role=self.profile, cause_by=type(self._rc.todo))
         else:
             msg = Message(content=response, role=self.profile, cause_by=type(self._rc.todo))
         self._rc.memory.add(msg)
@@ -184,8 +186,9 @@ class Role:
         env_msgs = self._rc.env.memory.get()
 
         observed = self._rc.env.memory.get_by_actions(self._rc.watch)
-        
-        self._rc.news = self._rc.memory.find_news(observed)  # find news (previously unseen messages) from observed messages
+
+        self._rc.news = self._rc.memory.find_news(
+            observed)  # find news (previously unseen messages) from observed messages
 
         for i in env_msgs:
             self.recv(i)
@@ -238,6 +241,7 @@ class Role:
             return
 
         rsp = await self._react()
+        print(rsp)
         # Publish the reply to the environment, waiting for the next subscriber to process
         self._publish_message(rsp)
         return rsp

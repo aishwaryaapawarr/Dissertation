@@ -7,6 +7,7 @@
 """
 import asyncio
 from typing import Iterable
+from metagpt.logs import logger
 
 from pydantic import BaseModel, Field
 
@@ -63,8 +64,11 @@ class Environment(BaseModel):
             for role in self.roles.values():
                 future = role.run()
                 futures.append(future)
-
+            logger.info("Starting to process roles")
             await asyncio.gather(*futures)
+            logger.info("Finished processing roles")
+
+            #await asyncio.gather(*futures)
 
     def get_roles(self) -> dict[str, Role]:
         """获得环境内的所有角色

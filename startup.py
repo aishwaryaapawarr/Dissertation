@@ -10,6 +10,12 @@ from metagpt.roles import (
     ProductManager,
     ProjectManager,
     QaEngineer,
+    TechnicalWriter,
+    UserResearcher,
+    DesignStrategist,
+    ServiceDesigner,
+    InteractionDesigner,
+    UsabilityAnalyst,
 )
 from metagpt.software_company import SoftwareCompany
 
@@ -18,29 +24,18 @@ async def startup(
     idea: str,
     investment: float = 3.0,
     n_round: int = 5,
-    code_review: bool = False,
-    run_tests: bool = False,
-    implement: bool = True,
 ):
     """Run a startup. Be a boss."""
     company = SoftwareCompany()
     company.hire(
         [
-            ProductManager(),
-            Architect(),
-            ProjectManager(),
+            UserResearcher(),
+            DesignStrategist(),
+            ServiceDesigner(),
+            InteractionDesigner(),
+            UsabilityAnalyst(),
         ]
     )
-
-    # if implement or code_review
-    if implement or code_review:
-        # developing features: implement the idea
-        company.hire([Engineer(n_borg=5, use_code_review=code_review)])
-
-    if run_tests:
-        # developing features: run tests on the spot and identify bugs
-        # (bug fixing capability comes soon!)
-        company.hire([QaEngineer()])
 
     company.invest(investment)
     company.start_project(idea)
@@ -52,8 +47,6 @@ def main(
     investment: float = 3.0,
     n_round: int = 5,
     code_review: bool = True,
-    run_tests: bool = False,
-    implement: bool = True,
 ):
     """
     We are a software startup comprised of AI. By investing in us,
@@ -65,7 +58,7 @@ def main(
     :param code_review: Whether to use code review.
     :return:
     """
-    asyncio.run(startup(idea, investment, n_round, code_review, run_tests, implement))
+    asyncio.run(startup(idea, investment, n_round))
 
 
 if __name__ == "__main__":

@@ -45,6 +45,7 @@ class SoftwareCompany(BaseModel):
     def start_project(self, idea):
         """Start a project from publishing boss requirement."""
         self.idea = idea
+        print(self.environment.roles)
         self.environment.publish_message(Message(role="BOSS", content=idea, cause_by=BossRequirement))
 
     def _save(self):

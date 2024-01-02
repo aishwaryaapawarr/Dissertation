@@ -14,11 +14,11 @@ class Manager:
     def __init__(self, llm: LLM = LLM()):
         self.llm = llm  # Large Language Model
         self.role_directions = {
-            "BOSS": "Product Manager",
-            "Product Manager": "Architect",
-            "Architect": "Engineer",
-            "Engineer": "QA Engineer",
-            "QA Engineer": "Product Manager"
+            "BOSS": "User Researcher",
+            "User Researcher": "Design Strategist",
+            "Design Strategist": "Service Designer",
+            "Service Designer": "Interaction Designer",
+            "Interaction Designer": "Usability Analyst",
         }
         self.prompt_template = """
         Given the following message:
