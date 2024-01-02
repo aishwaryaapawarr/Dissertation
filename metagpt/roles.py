@@ -14,7 +14,7 @@ from metagpt.llm import ai_func
 from pydantic import BaseModel
 import textwrap
 from actions import UserInterview, CreateEmpathyMap, SummarizeInsights, DefineProblemStatements, IdeateSolutions, PrototypeSolutions, DevelopFeaturePlan
-from metagpt.main_role import Role
+from main_role import Role
 
 class UserResearcher(Role):
     """

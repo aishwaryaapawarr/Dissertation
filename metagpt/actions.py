@@ -5,7 +5,7 @@ from PIL import Image, ImageDraw, ImageFont
 from metagpt.roles import Role
 import shutil
 from pathlib import Path
-from metagpt.main_action import Action, ActionOutput
+from main_action import Action, ActionOutput
 from metagpt.config import CONFIG
 from metagpt.const import WORKSPACE_ROOT
 from metagpt.logs import logger
@@ -167,10 +167,11 @@ class UserInterview(Action):
                                         format_example=format_example)
         logger.info(f"Conducting user interview for service design problem")
         interview_transcript = await ai_func(prompt)
-        if isinstance(interview_transcript, ActionOutput):
-            ws_name = interview_transcript.instruct_content.dict()["Python package name"]
+        formatted_transcript = "Interview Transcript:\n" + interview_transcript
+        if isinstance(formatted_transcript, ActionOutput):
+            ws_name = formatted_transcript.instruct_content.dict()["Python package name"]
         else:
-            ws_name = CodeParser.parse_str(block="Python package name", text=interview_transcript)
+            ws_name = CodeParser.parse_str(block="Python package name", text=formatted_transcript)
         workspace = WORKSPACE_ROOT / ws_name
         docs_path = workspace / "docs"
         docs_path.mkdir(parents=True, exist_ok=True)
